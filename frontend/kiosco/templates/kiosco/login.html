@@ -1,30 +1,132 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar sesión | Kiosco</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar sesión | GestureKiosk</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <main>
-        <h1>Kiosco sin contacto</h1>
-        <h2>Iniciar sesión</h2>
 
-        {% if error %}
-            <p>{{ error }}</p>
-        {% endif %}
+<body class="login-page">
 
-        <form method="post">
-            {% csrf_token %}
-            <p>
-                <label for="id_username">Usuario</label>
-                <input id="id_username" name="username" type="text" required>
-            </p>
-            <p>
-                <label for="id_password">Contraseña</label>
-                <input id="id_password" name="password" type="password" required>
-            </p>
-            <button type="submit">Ingresar</button>
-        </form>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="leaf-decoration leaf-one">❧</div>
+    <div class="leaf-decoration leaf-two">❧</div>
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <div class="login-visual">
+                <div class="gesture-illustration">
+                    <div class="camera-icon">
+                        <span></span>
+                    </div>
+
+                    <div class="hand-icon">
+                        ✋
+                    </div>
+
+                    <div class="gesture-ring ring-one"></div>
+                    <div class="gesture-ring ring-two"></div>
+                </div>
+
+                <p class="visual-label">
+                    Control inteligente
+                </p>
+            </div>
+
+            <div class="login-content">
+
+                <div class="brand">
+                    <span class="brand-mark">G</span>
+
+                    <div>
+                        <h1>GestureKiosk</h1>
+                        <span>Control sin contacto</span>
+                    </div>
+                </div>
+
+                <div class="login-heading">
+                    <p class="eyebrow">BIENVENIDA</p>
+
+                    <h2>
+                        Inicia tu experiencia
+                    </h2>
+
+                    <p>
+                        Controla el kiosco mediante gestos
+                        de forma sencilla y natural.
+                    </p>
+                </div>
+
+                {% if error %}
+                    <div class="login-error">
+                        <span>!</span>
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="post" class="login-form">
+                    {% csrf_token %}
+
+                    <div class="input-group">
+                        <label for="id_username">
+                            Usuario
+                        </label>
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">◉</span>
+
+                            <input
+                                id="id_username"
+                                name="username"
+                                type="text"
+                                placeholder="Ingresa tu usuario"
+                                autocomplete="username"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="id_password">
+                            Contraseña
+                        </label>
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">●</span>
+
+                            <input
+                                id="id_password"
+                                name="password"
+                                type="password"
+                                placeholder="Ingresa tu contraseña"
+                                autocomplete="current-password"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <button type="submit" class="primary-button">
+                        <span>Ingresar</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+                </form>
+
+                <p class="login-footer">
+                    Sistema de interacción sin contacto
+                </p>
+
+            </div>
+
+        </section>
+
     </main>
+
 </body>
 </html>
