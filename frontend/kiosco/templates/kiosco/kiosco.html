@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiosco sin contacto</title>
+</head>
+<body>
+    <main>
+        <h1>Kiosco sin contacto</h1>
+        <p>Bienvenida, {{ username }}.</p>
+        <p>La cámara y el control por gestos se agregarán aquí.</p>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </main>
+</body>
+</html>
