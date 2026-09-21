@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.routers.auth import router as auth_router
+from app.routers.gestures import router as gestures_router
 
 
 app = FastAPI(
@@ -11,6 +12,7 @@ app = FastAPI(
 
 
 app.include_router(auth_router)
+app.include_router(gestures_router)
 
 
 @app.get("/")
