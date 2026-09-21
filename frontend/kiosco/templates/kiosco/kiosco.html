@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GestureKiosk | Kiosco</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="kiosk-page">
+
+    <div class="dashboard-background"></div>
+
+    <header class="topbar">
+
+        <div class="brand dashboard-brand">
+            <span class="brand-mark">G</span>
+
+            <div>
+                <h1>GestureKiosk</h1>
+                <span>Kiosco sin contacto</span>
+            </div>
+        </div>
+
+        <div class="topbar-actions">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>Sistema listo</strong>
+                    <small>Cámara disponible</small>
+                </div>
+            </div>
+
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+
+                <button type="submit" class="logout-button">
+                    <span>Salir</span>
+                    <span>↗</span>
+                </button>
+            </form>
+
+        </div>
+
+    </header>
+
+
+    <main class="dashboard">
+
+        <section class="camera-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">INTERACCIÓN</p>
+
+                    <h2>
+                        Vista de cámara
+                    </h2>
+
+                    <p>
+                        Coloca tu mano frente a la cámara
+                        para comenzar.
+                    </p>
+                </div>
+
+                <div class="camera-status">
+                    <span class="camera-status-dot"></span>
+                    <span id="cameraStatus">
+                        Cámara detenida
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="camera-card">
+
+                <div class="camera-frame">
+
+                    <video
+                        id="cameraVideo"
+                        autoplay
+                        playsinline
+                        muted
+                    ></video>
+
+                    <div id="cameraPlaceholder" class="camera-placeholder">
+
+                        <div class="placeholder-icon">
+                            ◉
+                        </div>
+
+                        <h3>
+                            Cámara lista
+                        </h3>
+
+                        <p>
+                            Presiona "Iniciar cámara"
+                            para comenzar.
+                        </p>
+
+                    </div>
+
+                    <div class="camera-corners">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="camera-overlay">
+                        <span>GESTUREKIOSK</span>
+                        <span id="cameraIndicator">
+                            STANDBY
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="camera-controls">
+
+                <button
+                    id="startCamera"
+                    class="primary-button camera-button"
+                    type="button"
+                >
+                    <span class="control-icon">▶</span>
+                    <span>Iniciar cámara</span>
+                </button>
+
+                <button
+                    id="stopCamera"
+                    class="secondary-button camera-button"
+                    type="button"
+                    disabled
+                >
+                    <span class="control-icon">■</span>
+                    <span>Detener cámara</span>
+                </button>
+
+            </div>
+
+            <p id="cameraMessage" class="camera-message"></p>
+
+        </section>
+
+
+        <aside class="gesture-panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <p class="eyebrow">CONTROLES</p>
+
+                    <h2>
+                        Guía de gestos
+                    </h2>
+                </div>
+
+                <span class="guide-badge">
+                    3 gestos
+                </span>
+
+            </div>
+
+
+            <div class="gesture-list">
+
+                <article class="gesture-card">
+
+                    <div class="gesture-icon">
+                        ←
+                    </div>
+
+                    <div>
+                        <span class="gesture-number">
+                            01
+                        </span>
+
+                        <h3>
+                            Volver
+                        </h3>
+
+                        <p>
+                            Desliza tu mano hacia la izquierda.
+                        </p>
+                    </div>
+
+                </article>
+
+
+                <article class="gesture-card selected-gesture">
+
+                    <div class="gesture-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <span class="gesture-number">
+                            02
+                        </span>
+
+                        <h3>
+                            Seleccionar
+                        </h3>
+
+                        <p>
+                            Realiza el gesto de selección.
+                        </p>
+                    </div>
+
+                </article>
+
+
+                <article class="gesture-card">
+
+                    <div class="gesture-icon">
+                        →
+                    </div>
+
+                    <div>
+                        <span class="gesture-number">
+                            03
+                        </span>
+
+                        <h3>
+                            Siguiente
+                        </h3>
+
+                        <p>
+                            Desliza tu mano hacia la derecha.
+                        </p>
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <div class="detected-card">
+
+                <div class="detected-header">
+
+                    <div class="detected-icon">
+                        ✦
+                    </div>
+
+                    <div>
+                        <span>
+                            ESTADO ACTUAL
+                        </span>
+
+                        <h3>
+                            Gesto detectado
+                        </h3>
+                    </div>
+
+                </div>
+
+                <div class="detected-result" id="gestureResult">
+                    <span class="waiting-dot"></span>
+                    Esperando gesto…
+                </div>
+
+                <div class="detected-line">
+                    <span></span>
+                </div>
+
+            </div>
+
+
+            <div class="welcome-card">
+
+                <div class="welcome-icon">
+                    ✋
+                </div>
+
+                <div>
+                    <strong>
+                        Hola, {{ username }}
+                    </strong>
+
+                    <p>
+                        Usa tus manos para interactuar
+                        con el kiosco.
+                    </p>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </main>
+
+
+    <footer class="dashboard-footer">
+        <span>GestureKiosk</span>
+        <span>•</span>
+        <span>Control sin contacto</span>
+    </footer>
+
+
+    <script src="{% static 'js/camera.js' %}"></script>
+
+</body>
+</html>
