@@ -1,4 +1,5 @@
 import requests
+
 from django.conf import settings
 from django.shortcuts import redirect, render
 
@@ -16,22 +17,33 @@ def login_view(request):
         try:
             response = requests.post(
                 f"{settings.FASTAPI_URL}/api/v1/auth/login",
-                data={"username": username, "password": password},
+                data={
+                    "username": username,
+                    "password": password,
+                },
                 timeout=5,
             )
+
             response.raise_for_status()
+
             token_data = response.json()
 
             request.session["access_token"] = token_data["access_token"]
             request.session["username"] = username
+
             return redirect("kiosco")
 
         except requests.RequestException:
             error = "No fue posible conectar con el backend."
+
         except KeyError:
             error = "El backend respondió con un formato inesperado."
 
-    return render(request, "kiosco/login.html", {"error": error})
+    return render(
+        request,
+        "kiosco/login.html",
+        {"error": error},
+    )
 
 
 def kiosco(request):
@@ -41,7 +53,11 @@ def kiosco(request):
     return render(
         request,
         "kiosco/kiosco.html",
-        {"username": request.session.get("username")},
+        {
+            "username": request.session.get("username"),
+            "access_token": request.session.get("access_token"),
+            "fastapi_url": settings.FASTAPI_URL,
+        },
     )
 
 
