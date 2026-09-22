@@ -46,6 +46,46 @@ def login_view(request):
     )
 
 
+def register_view(request):
+    if request.session.get("access_token"):
+        return redirect("kiosco")
+
+    error = None
+    success = None
+
+    if request.method == "POST":
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
+        password_confirm = request.POST.get("password_confirm", "")
+
+        if not username or not password or not password_confirm:
+            error = "Completa todos los campos."
+
+        elif password != password_confirm:
+            error = "Las contraseñas no coinciden."
+
+        elif len(password) < 6:
+            error = "La contraseña debe tener al menos 6 caracteres."
+
+        else:
+            # El endpoint de registro de FastAPI todavía no está creado.
+            # Cuando esté disponible, aquí conectaremos el formulario
+            # con /api/v1/auth/register.
+            success = (
+                "El formulario está listo. "
+                "El registro se habilitará cuando el backend esté disponible."
+            )
+
+    return render(
+        request,
+        "kiosco/registro.html",
+        {
+            "error": error,
+            "success": success,
+        },
+    )
+
+
 def kiosco(request):
     if not request.session.get("access_token"):
         return redirect("login")
