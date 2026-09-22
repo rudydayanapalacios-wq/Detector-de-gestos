@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GestureKiosk | Kiosco</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         CONTENEDOR PRINCIPAL
+    ========================================================== -->
+
+    <div class="app-shell">
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <header class="topbar">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    ✋
+                </div>
+
+                <div>
+                    <h1>GestureKiosk</h1>
+                    <p>Control sin contacto</p>
+                </div>
+            </div>
+
+            <div class="topbar-actions">
+
+                <div class="system-status">
+                    <span class="status-dot"></span>
+                    <span>Sistema listo</span>
+                </div>
+
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">
+                        Cerrar sesión
+                    </button>
+                </form>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             CONTENIDO
+        ====================================================== -->
+
+        <main class="dashboard">
+
+            <!-- =================================================
+                 COLUMNA IZQUIERDA
+            ================================================== -->
+
+            <section class="camera-section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">CONTROL VISUAL</span>
+                        <h2>Vista de cámara</h2>
+                    </div>
+
+                    <span id="cameraState" class="camera-state">
+                        Cámara detenida
+                    </span>
+                </div>
+
+
+                <!-- =============================================
+                     VISOR DE CÁMARA
+                ============================================== -->
+
+                <div class="camera-card">
+
+                    <video
+                        id="cameraVideo"
+                        autoplay
+                        playsinline
+                        muted
+                    ></video>
+
+                    <div id="cameraPlaceholder" class="camera-placeholder">
+
+                        <div class="placeholder-icon">
+                            ✋
+                        </div>
+
+                        <h3>Cámara lista</h3>
+
+                        <p>
+                            Inicia la cámara para comenzar
+                            a controlar el kiosco mediante gestos.
+                        </p>
+
+                    </div>
+
+                    <div class="camera-overlay">
+                        <span>GESTUREKIOSK</span>
+                    </div>
+
+                </div>
+
+
+                <!-- =============================================
+                     MENSAJE DE ERROR
+                ============================================== -->
+
+                <div
+                    id="cameraError"
+                    class="camera-error"
+                    hidden
+                ></div>
+
+
+                <!-- =============================================
+                     CONTROLES
+                ============================================== -->
+
+                <div class="camera-controls">
+
+                    <button
+                        type="button"
+                        id="startCamera"
+                        class="primary-button"
+                    >
+                        <span>▶</span>
+                        Iniciar cámara
+                    </button>
+
+                    <button
+                        type="button"
+                        id="stopCamera"
+                        class="secondary-button"
+                        disabled
+                    >
+                        <span>■</span>
+                        Detener cámara
+                    </button>
+
+                </div>
+
+
+                <!-- =============================================
+                     GESTO DETECTADO
+                ============================================== -->
+
+                <div class="gesture-status-card">
+
+                    <div class="gesture-status-icon">
+                        ✋
+                    </div>
+
+                    <div class="gesture-status-content">
+
+                        <span class="eyebrow">
+                            RECONOCIMIENTO
+                        </span>
+
+                        <p id="gestureStatus">
+                            Gesto detectado:
+                            <strong>Esperando gesto...</strong>
+                        </p>
+
+                    </div>
+
+                    <div
+                        id="gestureIndicator"
+                        class="gesture-indicator"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 COLUMNA DERECHA
+            ================================================== -->
+
+            <aside class="sidebar">
+
+                <!-- =============================================
+                     BIENVENIDA
+                ============================================== -->
+
+                <section class="welcome-card">
+
+                    <span class="eyebrow">
+                        SESIÓN ACTIVA
+                    </span>
+
+                    <h2>
+                        Bienvenido,
+                        <span>{{ username }}</span>
+                    </h2>
+
+                    <p>
+                        Utiliza los gestos frente a la cámara
+                        para navegar por el sistema.
+                    </p>
+
+                </section>
+
+
+                <!-- =============================================
+                     GUÍA DE GESTOS
+                ============================================== -->
+
+                <section class="guide-card">
+
+                    <div class="section-heading compact">
+                        <div>
+                            <span class="eyebrow">
+                                INTERACCIÓN
+                            </span>
+
+                            <h2>Guía de gestos</h2>
+                        </div>
+                    </div>
+
+
+                    <div class="gesture-list">
+
+                        <!-- VOLVER -->
+
+                        <div class="gesture-item">
+
+                            <div class="gesture-symbol">
+                                ←
+                            </div>
+
+                            <div class="gesture-info">
+                                <h3>Volver</h3>
+                                <p>Open Palm</p>
+                            </div>
+
+                            <span class="gesture-code">
+                                BACK
+                            </span>
+
+                        </div>
+
+
+                        <!-- SELECCIONAR -->
+
+                        <div class="gesture-item">
+
+                            <div class="gesture-symbol">
+                                ✓
+                            </div>
+
+                            <div class="gesture-info">
+                                <h3>Seleccionar</h3>
+                                <p>Pointing Up</p>
+                            </div>
+
+                            <span class="gesture-code">
+                                SELECT
+                            </span>
+
+                        </div>
+
+
+                        <!-- SIGUIENTE -->
+
+                        <div class="gesture-item">
+
+                            <div class="gesture-symbol">
+                                →
+                            </div>
+
+                            <div class="gesture-info">
+                                <h3>Siguiente</h3>
+                                <p>Thumb Up</p>
+                            </div>
+
+                            <span class="gesture-code">
+                                SWIPE_RIGHT
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     INFORMACIÓN DE CONEXIÓN
+                ============================================== -->
+
+                <section class="connection-card">
+
+                    <div class="connection-header">
+
+                        <span class="connection-icon">
+                            ◉
+                        </span>
+
+                        <div>
+                            <span class="eyebrow">
+                                CONEXIÓN
+                            </span>
+
+                            <h3 id="connectionStatus">
+                                Esperando cámara
+                            </h3>
+                        </div>
+
+                    </div>
+
+                    <p id="connectionMessage">
+                        Inicia la cámara para comenzar
+                        el reconocimiento de gestos.
+                    </p>
+
+                </section>
+
+            </aside>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================================================
+         DATOS PARA JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+        window.GESTURE_CONFIG = {
+            apiUrl: "{{ fastapi_url|escapejs }}",
+            accessToken: "{{ access_token|escapejs }}"
+        };
+    </script>
+
+    <script src="{% static 'js/camera.js' %}"></script>
+
+</body>
+</html>
