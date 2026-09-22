@@ -6,21 +6,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Iniciar sesión | GestureKiosk</title>
+    <title>Crear cuenta | GestureKiosk</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
-<body class="login-page">
+<body class="login-page register-page">
 
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
+
     <div class="leaf-decoration leaf-one">❧</div>
     <div class="leaf-decoration leaf-two">❧</div>
 
     <main class="login-container">
 
         <section class="login-card">
+
+            <!-- =====================================================
+                 PANEL VISUAL
+                 ===================================================== -->
 
             <div class="login-visual">
 
@@ -38,12 +43,19 @@
                 </div>
 
                 <p class="visual-label">
-                    Control inteligente
+                    Interacción inteligente
                 </p>
 
             </div>
 
+
+            <!-- =====================================================
+                 CONTENIDO REGISTRO
+                 ===================================================== -->
+
             <div class="login-content">
+
+                <!-- MARCA -->
 
                 <div class="brand">
 
@@ -52,39 +64,85 @@
                     </span>
 
                     <div>
-                        <h1>GestureKiosk</h1>
-                        <span>Control sin contacto</span>
+
+                        <h1>
+                            GestureKiosk
+                        </h1>
+
+                        <span>
+                            Control sin contacto
+                        </span>
+
                     </div>
 
                 </div>
+
+
+                <!-- ENCABEZADO -->
 
                 <div class="login-heading">
 
                     <p class="eyebrow">
-                        BIENVENIDA
+                        CREAR CUENTA
                     </p>
 
                     <h2>
-                        Inicia tu experiencia
+                        Únete a la experiencia
                     </h2>
 
                     <p>
-                        Controla el kiosco mediante gestos
-                        de forma sencilla y natural.
+                        Crea tu cuenta para acceder al
+                        sistema de interacción mediante gestos.
                     </p>
 
                 </div>
 
+
+                <!-- ERROR -->
+
                 {% if error %}
+
                     <div class="login-error">
-                        <span>!</span>
+
+                        <span>
+                            !
+                        </span>
+
                         {{ error }}
+
                     </div>
+
                 {% endif %}
 
-                <form method="post" class="login-form">
+
+                <!-- ÉXITO -->
+
+                {% if success %}
+
+                    <div class="login-success">
+
+                        <span>
+                            ✓
+                        </span>
+
+                        {{ success }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- FORMULARIO -->
+
+                <form
+                    method="post"
+                    class="login-form"
+                >
 
                     {% csrf_token %}
+
+
+                    <!-- USUARIO -->
 
                     <div class="input-group">
 
@@ -102,14 +160,18 @@
                                 id="id_username"
                                 name="username"
                                 type="text"
-                                placeholder="Ingresa tu usuario"
+                                placeholder="Crea tu nombre de usuario"
                                 autocomplete="username"
+                                maxlength="50"
                                 required
                             >
 
                         </div>
 
                     </div>
+
+
+                    <!-- CONTRASEÑA -->
 
                     <div class="input-group">
 
@@ -127,8 +189,9 @@
                                 id="id_password"
                                 name="password"
                                 type="password"
-                                placeholder="Ingresa tu contraseña"
-                                autocomplete="current-password"
+                                placeholder="Crea una contraseña"
+                                autocomplete="new-password"
+                                minlength="6"
                                 required
                             >
 
@@ -136,10 +199,45 @@
 
                     </div>
 
-                    <button type="submit" class="primary-button">
+
+                    <!-- CONFIRMAR CONTRASEÑA -->
+
+                    <div class="input-group">
+
+                        <label for="id_password_confirm">
+                            Confirmar contraseña
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ●
+                            </span>
+
+                            <input
+                                id="id_password_confirm"
+                                name="password_confirm"
+                                type="password"
+                                placeholder="Repite tu contraseña"
+                                autocomplete="new-password"
+                                minlength="6"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTÓN -->
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
 
                         <span>
-                            Ingresar
+                            Crear cuenta
                         </span>
 
                         <span class="button-arrow">
@@ -150,12 +248,21 @@
 
                 </form>
 
+
+                <!-- VOLVER AL LOGIN -->
+
                 <p class="register-login">
-                    ¿No tienes una cuenta?
-                    <a href="{% url 'register' %}">
-                        Regístrate
+
+                    ¿Ya tienes una cuenta?
+
+                    <a href="{% url 'login' %}">
+                        Inicia sesión
                     </a>
+
                 </p>
+
+
+                <!-- FOOTER -->
 
                 <p class="login-footer">
                     Sistema de interacción sin contacto
