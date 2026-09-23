@@ -13,22 +13,17 @@ const config = window.GESTURE_CONFIG || {};
 const API_URL = config.apiUrl || "";
 const ACCESS_TOKEN = config.accessToken || "";
 
-const RECOGNITION_ENDPOINT =
-    `${API_URL}/api/v1/recognize-action`;
+const RECOGNITION_ENDPOINT = `${API_URL}/api/v1/recognize-action`;
 
 
 // ============================================================
 // ELEMENTOS DEL DOM
 // ============================================================
 
-const video =
-    document.getElementById("cameraVideo");
+const video = document.getElementById("cameraVideo");
 
-const startButton =
-    document.getElementById("startCamera");
-
-const stopButton =
-    document.getElementById("stopCamera");
+const startButton = document.getElementById("startCamera");
+const stopButton = document.getElementById("stopCamera");
 
 const cameraPlaceholder =
     document.getElementById("cameraPlaceholder");
@@ -53,20 +48,6 @@ const connectionMessage =
 
 
 // ============================================================
-// ELEMENTOS DEL MENÚ DEL KIOSCO
-// ============================================================
-
-const kioskOptions =
-    document.querySelectorAll(".kiosk-option");
-
-const menuPosition =
-    document.getElementById("menuPosition");
-
-const kioskSelection =
-    document.getElementById("kioskSelection");
-
-
-// ============================================================
 // VARIABLES DE CONTROL
 // ============================================================
 
@@ -84,17 +65,11 @@ let lastActionTime = 0;
 
 
 // ============================================================
-// CONTROL DEL MENÚ
-// ============================================================
-
-let currentOption = 0;
-
-
-// ============================================================
 // CONFIGURACIÓN DEL RECONOCIMIENTO
 // ============================================================
 
 // Tiempo entre capturas enviadas al backend.
+// Evita enviar demasiadas peticiones por segundo.
 
 const RECOGNITION_INTERVAL = 900;
 
@@ -115,13 +90,9 @@ const IMAGE_QUALITY = 0.75;
 // ============================================================
 
 const ACTION_NAMES = {
-
     SELECT: "Seleccionar",
-
     BACK: "Volver",
-
     SWIPE_RIGHT: "Siguiente"
-
 };
 
 
@@ -130,275 +101,65 @@ const ACTION_NAMES = {
 // ============================================================
 
 function showError(message) {
-
     if (!cameraError) {
         return;
     }
 
     cameraError.textContent = message;
-
     cameraError.hidden = false;
 }
 
 
 function hideError() {
-
     if (!cameraError) {
         return;
     }
 
     cameraError.textContent = "";
-
     cameraError.hidden = true;
 }
 
 
 function updateGesture(action) {
-
     if (!gestureStatus) {
         return;
     }
 
     if (!action) {
-
         gestureStatus.innerHTML =
             'Gesto detectado: <strong>Esperando gesto...</strong>';
 
         if (gestureIndicator) {
-
-            gestureIndicator.classList.remove(
-                "active"
-            );
-
+            gestureIndicator.classList.remove("active");
         }
 
         return;
     }
 
-
     const readableAction =
         ACTION_NAMES[action] || action;
-
 
     gestureStatus.innerHTML =
         `Gesto detectado: <strong>${readableAction}</strong>`;
 
-
     if (gestureIndicator) {
-
-        gestureIndicator.classList.add(
-            "active"
-        );
-
+        gestureIndicator.classList.add("active");
 
         setTimeout(() => {
-
-            gestureIndicator.classList.remove(
-                "active"
-            );
-
+            gestureIndicator.classList.remove("active");
         }, 700);
     }
 }
 
 
-function updateConnectionStatus(
-    status,
-    message
-) {
-
+function updateConnectionStatus(status, message) {
     if (connectionStatus) {
-
-        connectionStatus.textContent =
-            status;
+        connectionStatus.textContent = status;
     }
-
 
     if (connectionMessage) {
-
-        connectionMessage.textContent =
-            message;
+        connectionMessage.textContent = message;
     }
-}
-
-
-// ============================================================
-// MENÚ DEL KIOSCO
-// ============================================================
-
-function updateKioskOption() {
-
-    if (!kioskOptions.length) {
-        return;
-    }
-
-
-    kioskOptions.forEach(
-        (option, index) => {
-
-            option.classList.toggle(
-                "active",
-                index === currentOption
-            );
-
-        }
-    );
-
-
-    if (menuPosition) {
-
-        menuPosition.textContent =
-            `${currentOption + 1} / ${kioskOptions.length}`;
-
-    }
-
-
-    const selectedOption =
-        kioskOptions[currentOption];
-
-
-    if (
-        selectedOption &&
-        kioskSelection
-    ) {
-
-        const title =
-            selectedOption.querySelector("h3");
-
-
-        if (title) {
-
-            kioskSelection.textContent =
-                `Opción actual: ${title.textContent}`;
-
-        }
-    }
-}
-
-
-function nextOption() {
-
-    if (!kioskOptions.length) {
-        return;
-    }
-
-
-    currentOption++;
-
-
-    if (
-        currentOption >=
-        kioskOptions.length
-    ) {
-
-        currentOption = 0;
-
-    }
-
-
-    updateKioskOption();
-
-
-    console.log(
-        "Opción actual:",
-        currentOption
-    );
-}
-
-
-function selectCurrentOption() {
-
-    if (!kioskOptions.length) {
-        return;
-    }
-
-
-    const selectedOption =
-        kioskOptions[currentOption];
-
-
-    if (!selectedOption) {
-        return;
-    }
-
-
-    const title =
-        selectedOption.querySelector("h3");
-
-
-    const selectedTitle =
-        title
-            ? title.textContent.trim()
-            : "Opción";
-
-
-    selectedOption.classList.add(
-        "selected"
-    );
-
-
-    if (kioskSelection) {
-
-        kioskSelection.textContent =
-            `✓ ${selectedTitle} seleccionado`;
-
-    }
-
-
-    console.log(
-        "Opción seleccionada:",
-        selectedTitle
-    );
-
-
-    setTimeout(() => {
-
-        selectedOption.classList.remove(
-            "selected"
-        );
-
-
-        if (kioskSelection) {
-
-            kioskSelection.textContent =
-                `Opción actual: ${selectedTitle}`;
-
-        }
-
-    }, 1200);
-}
-
-
-function goBack() {
-
-    if (!kioskOptions.length) {
-        return;
-    }
-
-
-    if (currentOption === 0) {
-
-        if (kioskSelection) {
-
-            kioskSelection.textContent =
-                "Ya estás en la primera opción.";
-
-        }
-
-        return;
-    }
-
-
-    currentOption--;
-
-
-    updateKioskOption();
-
-
-    console.log(
-        "Volviendo a opción:",
-        currentOption
-    );
 }
 
 
@@ -407,14 +168,10 @@ function goBack() {
 // ============================================================
 
 async function startCamera() {
-
     hideError();
 
-
-    if (
-        !navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia
-    ) {
+    if (!navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia) {
 
         showError(
             "Tu navegador no permite acceder a la cámara."
@@ -423,23 +180,16 @@ async function startCamera() {
         return;
     }
 
-
     if (cameraStream) {
         return;
     }
 
-
     try {
-
-        cameraState.textContent =
-            "Solicitando cámara...";
-
+        cameraState.textContent = "Solicitando cámara...";
 
         cameraStream =
             await navigator.mediaDevices.getUserMedia({
-
                 video: {
-
                     width: {
                         ideal: 1280
                     },
@@ -449,62 +199,48 @@ async function startCamera() {
                     },
 
                     facingMode: "user"
-
                 },
 
                 audio: false
-
             });
 
 
-        video.srcObject =
-            cameraStream;
-
+        video.srcObject = cameraStream;
 
         await video.play();
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // PREPARAR CANVAS
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
-        canvas =
-            document.createElement("canvas");
+        canvas = document.createElement("canvas");
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // ACTUALIZAR INTERFAZ
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
-        cameraPlaceholder.classList.add(
-            "hidden"
-        );
+        cameraPlaceholder.classList.add("hidden");
 
-
-        cameraState.textContent =
-            "Cámara activa";
-
+        cameraState.textContent = "Cámara activa";
 
         startButton.disabled = true;
-
         stopButton.disabled = false;
-
 
         updateConnectionStatus(
             "Cámara activa",
             "Reconocimiento de gestos listo."
         );
 
-
         updateGesture(null);
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // COMENZAR RECONOCIMIENTO
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
         startRecognition();
-
 
     } catch (error) {
 
@@ -513,49 +249,32 @@ async function startCamera() {
             error
         );
 
-
         cameraStream = null;
 
-
-        cameraState.textContent =
-            "Cámara detenida";
-
+        cameraState.textContent = "Cámara detenida";
 
         startButton.disabled = false;
-
         stopButton.disabled = true;
 
 
-        if (
-            error.name ===
-            "NotAllowedError"
-        ) {
+        if (error.name === "NotAllowedError") {
 
             showError(
                 "Permiso de cámara denegado. " +
                 "Permite el acceso a la cámara desde el navegador."
             );
 
-
-        } else if (
-            error.name ===
-            "NotFoundError"
-        ) {
+        } else if (error.name === "NotFoundError") {
 
             showError(
                 "No se encontró ninguna cámara conectada."
             );
 
-
-        } else if (
-            error.name ===
-            "NotReadableError"
-        ) {
+        } else if (error.name === "NotReadableError") {
 
             showError(
                 "La cámara está siendo utilizada por otra aplicación."
             );
-
 
         } else {
 
@@ -563,7 +282,6 @@ async function startCamera() {
                 "No fue posible iniciar la cámara."
             );
         }
-
 
         updateConnectionStatus(
             "Cámara no disponible",
@@ -586,9 +304,7 @@ function stopCamera() {
 
         cameraStream
             .getTracks()
-            .forEach(
-                track => track.stop()
-            );
+            .forEach(track => track.stop());
 
         cameraStream = null;
     }
@@ -597,17 +313,13 @@ function stopCamera() {
     video.srcObject = null;
 
 
-    cameraPlaceholder.classList.remove(
-        "hidden"
-    );
+    cameraPlaceholder.classList.remove("hidden");
 
 
-    cameraState.textContent =
-        "Cámara detenida";
+    cameraState.textContent = "Cámara detenida";
 
 
     startButton.disabled = false;
-
     stopButton.disabled = true;
 
 
@@ -621,7 +333,6 @@ function stopCamera() {
 
 
     lastAction = null;
-
     lastActionTime = 0;
 }
 
@@ -635,27 +346,23 @@ function startRecognition() {
     stopRecognition();
 
 
-    recognitionInterval =
-        setInterval(() => {
+    recognitionInterval = setInterval(() => {
 
-            if (!cameraStream) {
-                return;
-            }
+        if (!cameraStream) {
+            return;
+        }
 
+        if (video.readyState < 2) {
+            return;
+        }
 
-            if (video.readyState < 2) {
-                return;
-            }
+        if (recognitionInProgress) {
+            return;
+        }
 
+        recognizeGesture();
 
-            if (recognitionInProgress) {
-                return;
-            }
-
-
-            recognizeGesture();
-
-        }, RECOGNITION_INTERVAL);
+    }, RECOGNITION_INTERVAL);
 }
 
 
@@ -667,13 +374,10 @@ function stopRecognition() {
 
     if (recognitionInterval) {
 
-        clearInterval(
-            recognitionInterval
-        );
+        clearInterval(recognitionInterval);
 
         recognitionInterval = null;
     }
-
 
     recognitionInProgress = false;
 }
@@ -686,18 +390,12 @@ function stopRecognition() {
 function captureFrame() {
 
     if (!canvas) {
-
-        canvas =
-            document.createElement("canvas");
-
+        canvas = document.createElement("canvas");
     }
 
 
-    const width =
-        video.videoWidth;
-
-    const height =
-        video.videoHeight;
+    const width = video.videoWidth;
+    const height = video.videoHeight;
 
 
     if (!width || !height) {
@@ -705,10 +403,10 @@ function captureFrame() {
     }
 
 
-    // Reducimos la imagen antes de enviarla.
+    // Reducimos un poco la imagen antes de enviarla.
+    // Esto evita mandar archivos innecesariamente grandes.
 
     const maxWidth = 640;
-
 
     const scale =
         width > maxWidth
@@ -716,16 +414,8 @@ function captureFrame() {
             : 1;
 
 
-    canvas.width =
-        Math.round(
-            width * scale
-        );
-
-
-    canvas.height =
-        Math.round(
-            height * scale
-        );
+    canvas.width = Math.round(width * scale);
+    canvas.height = Math.round(height * scale);
 
 
     const context =
@@ -749,39 +439,32 @@ function captureFrame() {
 // CONVERTIR CANVAS A BLOB
 // ============================================================
 
-function canvasToBlob(
-    canvasElement
-) {
+function canvasToBlob(canvasElement) {
 
-    return new Promise(
-        (resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
-            canvasElement.toBlob(
-                blob => {
+        canvasElement.toBlob(
+            blob => {
 
-                    if (!blob) {
+                if (!blob) {
 
-                        reject(
-                            new Error(
-                                "No fue posible crear la imagen."
-                            )
-                        );
+                    reject(
+                        new Error(
+                            "No fue posible crear la imagen."
+                        )
+                    );
 
-                        return;
-                    }
+                    return;
+                }
 
+                resolve(blob);
+            },
 
-                    resolve(blob);
+            "image/jpeg",
 
-                },
-
-                "image/jpeg",
-
-                IMAGE_QUALITY
-            );
-
-        }
-    );
+            IMAGE_QUALITY
+        );
+    });
 }
 
 
@@ -829,13 +512,16 @@ async function recognizeGesture() {
             await canvasToBlob(frame);
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // FORMDATA
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
         const formData =
             new FormData();
 
+
+        // El backend espera exactamente:
+        // file: UploadFile
 
         formData.append(
             "file",
@@ -844,68 +530,54 @@ async function recognizeGesture() {
         );
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // PETICIÓN HTTP
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
         const response =
             await fetch(
                 RECOGNITION_ENDPOINT,
                 {
-
                     method: "POST",
 
                     headers: {
-
                         "Authorization":
                             `Bearer ${ACCESS_TOKEN}`
-
                     },
 
                     body: formData
-
                 }
             );
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // RESPUESTA NO EXITOSA
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
         if (!response.ok) {
 
             let detail =
                 "No fue posible reconocer el gesto.";
 
-
             try {
 
                 const errorData =
                     await response.json();
 
-
                 if (errorData.detail) {
-
-                    detail =
-                        errorData.detail;
-
+                    detail = errorData.detail;
                 }
 
             } catch (error) {
-
                 // La respuesta no tenía JSON.
-
             }
 
 
-            if (
-                response.status === 401
-            ) {
+            if (response.status === 401) {
 
                 detail =
                     "La sesión no es válida. " +
                     "Inicia sesión nuevamente.";
-
             }
 
 
@@ -915,9 +587,9 @@ async function recognizeGesture() {
         }
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // LEER RESPUESTA
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
         const data =
             await response.json();
@@ -929,9 +601,9 @@ async function recognizeGesture() {
         );
 
 
-        // ----------------------------------------------------
+        // --------------------------------------------------------
         // PROCESAR ACCIÓN
-        // ----------------------------------------------------
+        // --------------------------------------------------------
 
         const action =
             data.action;
@@ -955,17 +627,14 @@ async function recognizeGesture() {
             error
         );
 
-
         updateConnectionStatus(
             "Error de conexión",
             "No fue posible comunicarse con el servidor."
         );
 
-
     } finally {
 
         recognitionInProgress = false;
-
     }
 }
 
@@ -980,24 +649,19 @@ function processAction(action) {
         Date.now();
 
 
-    // Evitar repetir inmediatamente
+    // Evita repetir inmediatamente
     // la misma acción.
 
     if (
         action === lastAction &&
-        now - lastActionTime <
-        ACTION_COOLDOWN
+        now - lastActionTime < ACTION_COOLDOWN
     ) {
-
         return;
     }
 
 
-    lastAction =
-        action;
-
-    lastActionTime =
-        now;
+    lastAction = action;
+    lastActionTime = now;
 
 
     updateGesture(action);
@@ -1017,9 +681,19 @@ function processAction(action) {
     );
 
 
-    // ========================================================
-    // CONTROL REAL DEL KIOSCO
-    // ========================================================
+    // ----------------------------------------------------------
+    // ACCIONES DEL KIOSCO
+    // ----------------------------------------------------------
+    //
+    // Por ahora solamente mostramos la acción.
+    //
+    // La navegación real del kiosco se puede conectar después.
+    //
+    // SELECT      → seleccionar
+    // BACK        → volver
+    // SWIPE_RIGHT → siguiente
+    //
+    // ----------------------------------------------------------
 
     switch (action) {
 
@@ -1028,8 +702,6 @@ function processAction(action) {
             console.log(
                 "Acción SELECT"
             );
-
-            selectCurrentOption();
 
             break;
 
@@ -1040,8 +712,6 @@ function processAction(action) {
                 "Acción BACK"
             );
 
-            goBack();
-
             break;
 
 
@@ -1050,8 +720,6 @@ function processAction(action) {
             console.log(
                 "Acción SWIPE_RIGHT"
             );
-
-            nextOption();
 
             break;
 
@@ -1062,7 +730,6 @@ function processAction(action) {
                 "Acción no mapeada:",
                 action
             );
-
     }
 }
 
@@ -1077,7 +744,6 @@ if (startButton) {
         "click",
         startCamera
     );
-
 }
 
 
@@ -1087,7 +753,6 @@ if (stopButton) {
         "click",
         stopCamera
     );
-
 }
 
 
@@ -1099,9 +764,7 @@ if (stopButton) {
 window.addEventListener(
     "beforeunload",
     () => {
-
         stopCamera();
-
     }
 );
 
@@ -1115,12 +778,4 @@ updateConnectionStatus(
     "Inicia la cámara para comenzar el reconocimiento."
 );
 
-
 updateGesture(null);
-
-
-// ============================================================
-// ESTADO INICIAL DEL MENÚ
-// ============================================================
-
-updateKioskOption();

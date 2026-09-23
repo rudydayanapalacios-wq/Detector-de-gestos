@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GestureKiosk | Imágenes</title>
+
+    <style>
+
+        :root {
+            --cream: #f3eadb;
+            --cream-light: #faf5ec;
+            --cream-dark: #e6d7c2;
+
+            --terracotta: #a85d46;
+            --terracotta-dark: #884936;
+            --burnt-orange: #b86b43;
+
+            --brown: #34251e;
+            --brown-light: #5c473b;
+
+            --olive: #73765a;
+            --olive-dark: #55583f;
+
+            --gold: #b99a62;
+
+            --white: #fffdf8;
+            --muted: #8a786b;
+            --danger: #a54d42;
+            --success: #65704c;
+
+            --shadow-soft:
+                0 25px 70px
+                rgba(63, 43, 32, 0.14);
+
+            --shadow-card:
+                0 10px 30px
+                rgba(63, 43, 32, 0.08);
+
+            --radius-xl: 30px;
+            --radius-lg: 22px;
+            --radius-md: 14px;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            color: var(--brown);
+
+            background:
+                radial-gradient(
+                    circle at 8% 8%,
+                    rgba(168, 93, 70, 0.13),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 92% 88%,
+                    rgba(115, 118, 90, 0.14),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--cream-light),
+                    var(--cream)
+                );
+
+            overflow-x: hidden;
+        }
+
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+
+        /* =========================================
+           AMBIENTE
+           ========================================= */
+
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -2;
+            filter: blur(2px);
+        }
+
+
+        .ambient-one {
+            width: 340px;
+            height: 340px;
+            top: -150px;
+            right: -100px;
+            background: rgba(168, 93, 70, 0.09);
+        }
+
+
+        .ambient-two {
+            width: 300px;
+            height: 300px;
+            bottom: -130px;
+            left: -100px;
+            background: rgba(115, 118, 90, 0.10);
+        }
+
+
+        .leaf-decoration {
+            position: fixed;
+            color: rgba(115, 118, 90, 0.16);
+            font-size: 105px;
+            line-height: 1;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+
+        .leaf-one {
+            top: 25%;
+            left: -30px;
+            transform: rotate(-25deg);
+        }
+
+
+        .leaf-two {
+            right: -25px;
+            bottom: 18%;
+            transform: rotate(155deg);
+        }
+
+
+        /* =========================================
+           HEADER — IGUAL AL KIOSCO
+           ========================================= */
+
+        .topbar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            z-index: 100;
+
+            height: 76px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 38px;
+
+            background:
+                rgba(250, 245, 236, 0.92);
+
+            border-bottom:
+                1px solid
+                rgba(168, 93, 70, 0.12);
+
+            box-shadow:
+                0 8px 25px
+                rgba(63, 43, 32, 0.06);
+
+            backdrop-filter:
+                blur(18px);
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            text-decoration: none;
+        }
+
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--terracotta),
+                    var(--burnt-orange)
+                );
+
+            color: white;
+
+            font-size: 20px;
+            font-weight: 900;
+
+            box-shadow:
+                0 8px 20px
+                rgba(168, 93, 70, 0.20);
+        }
+
+
+        .brand-text strong {
+            display: block;
+
+            color: var(--brown);
+
+            font-size: 17px;
+            line-height: 1;
+        }
+
+
+        .brand-text span {
+            display: block;
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 8px;
+            font-weight: 800;
+
+            letter-spacing: 1.1px;
+
+            text-transform: uppercase;
+        }
+
+
+        .nav {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+
+        .nav a {
+            padding:
+                10px 17px;
+
+            border-radius: 11px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-decoration: none;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .nav a:hover {
+            color: var(--terracotta);
+
+            background:
+                rgba(168, 93, 70, 0.07);
+        }
+
+
+        .nav a.active {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--terracotta),
+                    var(--burnt-orange)
+                );
+
+            box-shadow:
+                0 7px 18px
+                rgba(168, 93, 70, 0.18);
+        }
+
+
+        .user-area {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-left: 10px;
+
+            padding-left: 15px;
+
+            border-left:
+                1px solid
+                var(--cream-dark);
+        }
+
+
+        .user-name {
+            color: var(--brown-light);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .logout-button {
+            padding:
+                8px 12px;
+
+            border:
+                1px solid
+                rgba(165, 77, 66, 0.15);
+
+            border-radius: 10px;
+
+            background:
+                rgba(165, 77, 66, 0.06);
+
+            color: var(--danger);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .logout-button:hover {
+            background:
+                rgba(165, 77, 66, 0.12);
+        }
+
+
+        /* =========================================
+           CONTENIDO PRINCIPAL
+           ========================================= */
+
+        .page {
+            width: min(1080px, calc(100% - 40px));
+
+            margin: 0 auto 70px;
+
+            padding:
+                120px 0 0;
+        }
+
+
+        .page-header {
+            max-width: 760px;
+
+            margin:
+                0 auto 30px;
+
+            text-align: center;
+        }
+
+
+        .eyebrow {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 12px;
+
+            padding:
+                7px 13px;
+
+            border:
+                1px solid
+                rgba(168, 93, 70, 0.12);
+
+            border-radius: 999px;
+
+            background:
+                rgba(168, 93, 70, 0.08);
+
+            color:
+                var(--terracotta-dark);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.08em;
+
+            text-transform: uppercase;
+        }
+
+
+        .eyebrow::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background:
+                var(--terracotta);
+        }
+
+
+        .page-header h1 {
+            margin-bottom: 10px;
+
+            color: var(--brown);
+
+            font-size:
+                clamp(32px, 5vw, 48px);
+
+            line-height: 1.05;
+
+            letter-spacing: -0.03em;
+        }
+
+
+        .page-header p {
+            max-width: 650px;
+
+            margin: auto;
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================================
+           PANEL PRINCIPAL
+           ========================================= */
+
+        .gallery-card {
+            padding: 20px;
+
+            background:
+                rgba(255, 253, 248, 0.86);
+
+            border:
+                1px solid
+                rgba(168, 93, 70, 0.11);
+
+            border-radius:
+                var(--radius-xl);
+
+            box-shadow:
+                var(--shadow-soft);
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+        }
+
+
+        /* =========================================
+           IMAGEN
+           ========================================= */
+
+        .image-container {
+            position: relative;
+
+            width: 100%;
+            height: 480px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(255, 255, 255, 0.08),
+                    transparent 45%
+                ),
+                linear-gradient(
+                    135deg,
+                    #2f211b,
+                    #514035
+                );
+
+            box-shadow:
+                inset 0 0 0 1px
+                rgba(255, 255, 255, 0.07),
+
+                0 15px 35px
+                rgba(52, 37, 30, 0.14);
+        }
+
+
+        .image-container::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(0, 0, 0, 0.03),
+                    transparent 55%,
+                    rgba(0, 0, 0, 0.30)
+                );
+        }
+
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            opacity: 1;
+
+            transition:
+                opacity 0.18s ease,
+                transform 0.35s ease;
+        }
+
+
+        .image-container:hover
+        .gallery-image {
+            transform:
+                scale(1.015);
+        }
+
+
+        .image-overlay {
+            position: absolute;
+
+            z-index: 3;
+
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding:
+                17px 19px;
+
+            border:
+                1px solid
+                rgba(255, 253, 248, 0.10);
+
+            border-radius: 17px;
+
+            background:
+                rgba(52, 37, 30, 0.78);
+
+            color:
+                var(--white);
+
+            backdrop-filter:
+                blur(14px);
+
+            -webkit-backdrop-filter:
+                blur(14px);
+        }
+
+
+        .image-overlay h2 {
+            margin-bottom: 4px;
+
+            font-size: 21px;
+
+            line-height: 1.1;
+        }
+
+
+        .image-overlay p {
+            color:
+                rgba(255, 253, 248, 0.72);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .image-number {
+            flex-shrink: 0;
+
+            padding:
+                7px 10px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255, 253, 248, 0.11);
+
+            color:
+                rgba(255, 253, 248, 0.85);
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           INFORMACIÓN DE GALERÍA
+           ========================================= */
+
+        .gallery-info {
+            margin-top: 17px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr auto;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .counter-box {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .counter-icon {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 11px;
+
+            background:
+                rgba(115, 118, 90, 0.10);
+
+            font-size: 16px;
+        }
+
+
+        .counter-text {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+        }
+
+
+        .counter-label {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.05em;
+        }
+
+
+        .counter {
+            color: var(--brown);
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+
+        .current-gesture {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+
+        .gesture-label {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .gesture-indicator {
+            min-width: 125px;
+
+            padding:
+                9px 14px;
+
+            text-align: center;
+
+            border:
+                1px solid
+                rgba(115, 118, 90, 0.15);
+
+            border-radius: 11px;
+
+            background:
+                rgba(115, 118, 90, 0.09);
+
+            color:
+                var(--olive-dark);
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .gesture-indicator.active {
+            background:
+                var(--terracotta);
+
+            color:
+                var(--white);
+
+            transform:
+                scale(1.03);
+        }
+
+
+        /* =========================================
+           DETECCIÓN
+           ========================================= */
+
+        .detection-card {
+            margin-top: 18px;
+
+            padding: 20px;
+
+            display: grid;
+
+            grid-template-columns:
+                auto 1fr auto;
+
+            align-items: center;
+
+            gap: 16px;
+
+            background:
+                rgba(255, 253, 248, 0.86);
+
+            border:
+                1px solid
+                rgba(168, 93, 70, 0.10);
+
+            border-radius:
+                var(--radius-lg);
+
+            box-shadow:
+                var(--shadow-card);
+        }
+
+
+        .camera-status {
+            width: 48px;
+            height: 48px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 15px;
+
+            background:
+                rgba(168, 93, 70, 0.10);
+
+            font-size: 20px;
+
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .camera-status.active {
+            background:
+                rgba(101, 112, 76, 0.15);
+
+            transform:
+                scale(1.04);
+        }
+
+
+        .detection-info {
+            min-width: 0;
+        }
+
+
+        .detection-info strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: var(--brown);
+
+            font-size: 14px;
+        }
+
+
+        .detection-info span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .detection-buttons {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .detection-button {
+            min-width: 125px;
+
+            padding:
+                11px 15px;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        .detection-button:hover:not(:disabled) {
+            transform:
+                translateY(-2px);
+        }
+
+
+        .start-button {
+            background:
+                var(--terracotta);
+
+            color:
+                var(--white);
+
+            box-shadow:
+                0 7px 17px
+                rgba(168, 93, 70, 0.20);
+        }
+
+
+        .start-button:hover:not(:disabled) {
+            background:
+                var(--terracotta-dark);
+        }
+
+
+        .stop-button {
+            background:
+                rgba(165, 77, 66, 0.10);
+
+            color:
+                var(--danger);
+        }
+
+
+        .stop-button:hover:not(:disabled) {
+            background:
+                rgba(165, 77, 66, 0.17);
+        }
+
+
+        .detection-button:disabled {
+            cursor: not-allowed;
+
+            opacity: 0.42;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+
+        /* =========================================
+           ESTADO DEL GESTO
+           ========================================= */
+
+        .status-card {
+            margin-top: 18px;
+
+            padding:
+                18px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            background:
+                rgba(255, 253, 248, 0.84);
+
+            border:
+                1px solid
+                rgba(168, 93, 70, 0.10);
+
+            border-radius:
+                var(--radius-lg);
+
+            box-shadow:
+                var(--shadow-card);
+        }
+
+
+        .status-icon {
+            width: 44px;
+            height: 44px;
+
+            flex-shrink: 0;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 13px;
+
+            background:
+                rgba(168, 93, 70, 0.09);
+
+            font-size: 19px;
+        }
+
+
+        .status-text {
+            min-width: 0;
+        }
+
+
+        .status-text strong {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: var(--brown);
+
+            font-size: 13px;
+        }
+
+
+        .status-text span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================
+           CONTROLES MANUALES
+           ========================================= */
+
+        .controls-card {
+            margin-top: 18px;
+
+            padding: 20px;
+
+            background:
+                rgba(255, 253, 248, 0.84);
+
+            border:
+                1px solid
+                rgba(168, 93, 70, 0.10);
+
+            border-radius:
+                var(--radius-lg);
+
+            box-shadow:
+                var(--shadow-card);
+        }
+
+
+        .controls-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .controls-title {
+            color: var(--brown);
+
+            font-size: 14px;
+
+            font-weight: 900;
+        }
+
+
+        .controls-subtitle {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .controls {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .gesture-button {
+            min-height: 52px;
+
+            border:
+                1px solid
+                rgba(168, 93, 70, 0.13);
+
+            border-radius: 13px;
+
+            background:
+                var(--cream-light);
+
+            color:
+                var(--brown);
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .gesture-button:hover {
+            transform:
+                translateY(-2px);
+
+            border-color:
+                rgba(168, 93, 70, 0.25);
+
+            background:
+                rgba(168, 93, 70, 0.08);
+
+            color:
+                var(--terracotta-dark);
+        }
+
+
+        .gesture-button.active {
+            border-color:
+                var(--terracotta);
+
+            background:
+                var(--terracotta);
+
+            color:
+                var(--white);
+
+            box-shadow:
+                0 7px 17px
+                rgba(168, 93, 70, 0.18);
+        }
+
+
+        /* =========================================
+           CÁMARA OCULTA
+           ========================================= */
+
+        #camera {
+            display: none;
+        }
+
+
+        /* =========================================
+           RESPONSIVE — IGUAL AL KIOSCO
+           ========================================= */
+
+        @media (max-width: 950px) {
+
+            .topbar {
+                padding:
+                    0 22px;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .detection-card {
+                grid-template-columns:
+                    auto 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .image-container {
+                height: 430px;
+            }
+
+            .detection-buttons {
+                grid-column: 1 / -1;
+
+                width: 100%;
+            }
+
+            .detection-button {
+                flex: 1;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .topbar {
+                height: auto;
+
+                min-height: 72px;
+
+                flex-wrap: wrap;
+
+                gap: 10px;
+
+                padding:
+                    12px 15px;
+            }
+
+
+            .nav {
+                order: 3;
+
+                width: 100%;
+
+                justify-content:
+                    center;
+            }
+
+
+            .user-area {
+                margin-left:
+                    auto;
+            }
+
+
+            .page {
+                width:
+                    calc(100% - 30px);
+
+                padding:
+                    145px 0 40px;
+            }
+
+
+            .gallery-card {
+                padding: 10px;
+            }
+
+
+            .image-container {
+                height: 330px;
+
+                border-radius: 18px;
+            }
+
+
+            .image-overlay {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+
+                padding: 14px;
+            }
+
+
+            .image-overlay h2 {
+                font-size: 18px;
+            }
+
+
+            .gallery-info {
+                grid-template-columns:
+                    1fr;
+
+                gap: 12px;
+            }
+
+
+            .current-gesture {
+                justify-content:
+                    space-between;
+            }
+
+
+            .detection-card {
+                grid-template-columns:
+                    1fr;
+
+                text-align: center;
+            }
+
+
+            .camera-status {
+                margin: auto;
+            }
+
+
+            .detection-buttons {
+                grid-column: auto;
+
+                flex-direction: column;
+            }
+
+
+            .detection-button {
+                width: 100%;
+            }
+
+
+            .controls {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .controls-header {
+                flex-direction: column;
+
+                align-items:
+                    flex-start;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .brand-text {
+                display: none;
+            }
+
+
+            .nav a {
+                padding:
+                    9px 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <div class="leaf-decoration leaf-one">❧</div>
+    <div class="leaf-decoration leaf-two">❧</div>
+
+
+    <!-- HEADER -->
+
+    <header class="topbar">
+
+        <a
+            href="{% url 'kiosco' %}"
+            class="brand"
+        >
+
+            <span class="brand-mark">
+                G
+            </span>
+
+            <div class="brand-text">
+
+                <strong>
+                    GestureKiosk
+                </strong>
+
+                <span>
+                    Control sin contacto
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav class="nav">
+
+            <a href="{% url 'kiosco' %}">
+                Inicio
+            </a>
+
+            <a href="{% url 'gestos' %}">
+                Gestos
+            </a>
+
+            <a
+                href="{% url 'imagenes' %}"
+                class="active"
+            >
+                Imágenes
+            </a>
+
+        </nav>
+
+
+        <div class="user-area">
+
+            <span class="user-name">
+                {{ username }}
+            </span>
+
+            <form
+                method="post"
+                action="{% url 'logout' %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="logout-button"
+                >
+                    Salir
+                </button>
+
+            </form>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENIDO -->
+
+    <main class="page">
+
+        <section class="page-header">
+
+            <span class="eyebrow">
+                Galería interactiva
+            </span>
+
+            <h1>
+                Explora las imágenes
+            </h1>
+
+            <p>
+                Utiliza las señas frente a la cámara para navegar
+                por la galería sin necesidad de tocar la pantalla.
+            </p>
+
+        </section>
+
+
+        <!-- GALERÍA -->
+
+        <section class="gallery-card">
+
+            <div class="image-container">
+
+                <img
+                    id="galleryImage"
+                    class="gallery-image"
+                    src=""
+                    alt="Imagen actual"
+                >
+
+                <div class="image-overlay">
+
+                    <div>
+
+                        <h2 id="imageTitle">
+                            Cargando...
+                        </h2>
+
+                        <p id="imageDescription">
+                            Preparando la galería...
+                        </p>
+
+                    </div>
+
+                    <span
+                        id="imageNumber"
+                        class="image-number"
+                    >
+                        1 / 6
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="gallery-info">
+
+                <div class="counter-box">
+
+                    <div class="counter-icon">
+                        🖼️
+                    </div>
+
+                    <div class="counter-text">
+
+                        <span class="counter-label">
+                            Posición actual
+                        </span>
+
+                        <span class="counter">
+
+                            Imagen
+
+                            <span id="imageCounter">
+                                1 / 6
+                            </span>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="current-gesture">
+
+                    <span class="gesture-label">
+                        Último gesto
+                    </span>
+
+                    <span
+                        id="gestureIndicator"
+                        class="gesture-indicator"
+                    >
+                        ESPERANDO
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DETECCIÓN -->
+
+        <section class="detection-card">
+
+            <div
+                id="cameraStatus"
+                class="camera-status"
+            >
+                📷
+            </div>
+
+
+            <div class="detection-info">
+
+                <strong id="detectionTitle">
+                    Detección detenida
+                </strong>
+
+                <span id="detectionDescription">
+                    Presiona "Iniciar detección" para activar
+                    la cámara y comenzar a reconocer gestos.
+                </span>
+
+            </div>
+
+
+            <div class="detection-buttons">
+
+                <button
+                    id="startDetection"
+                    type="button"
+                    class="detection-button start-button"
+                >
+                    ▶ Iniciar detección
+                </button>
+
+                <button
+                    id="stopDetection"
+                    type="button"
+                    class="detection-button stop-button"
+                    disabled
+                >
+                    ■ Detener detección
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ESTADO DEL GESTO -->
+
+        <section class="status-card">
+
+            <div class="status-icon">
+                ✋
+            </div>
+
+            <div class="status-text">
+
+                <strong id="currentGesture">
+                    Esperando un gesto
+                </strong>
+
+                <span id="currentDescription">
+                    Inicia la detección y realiza una seña
+                    frente a la cámara.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTROLES MANUALES -->
+
+        <section class="controls-card">
+
+            <div class="controls-header">
+
+                <div class="controls-title">
+                    Controles de prueba
+                </div>
+
+                <div class="controls-subtitle">
+                    También puedes probar las acciones manualmente
+                </div>
+
+            </div>
+
+
+            <div class="controls">
+
+                <button
+                    type="button"
+                    class="gesture-button"
+                    data-gesture="BACK"
+                >
+                    ← BACK
+                </button>
+
+                <button
+                    type="button"
+                    class="gesture-button"
+                    data-gesture="SELECT"
+                >
+                    ✓ SELECT
+                </button>
+
+                <button
+                    type="button"
+                    class="gesture-button"
+                    data-gesture="SWIPE_RIGHT"
+                >
+                    SWIPE RIGHT →
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- CÁMARA -->
+
+    <video
+        id="camera"
+        autoplay
+        playsinline
+        muted
+    ></video>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /* =========================================
+           CONFIGURACIÓN
+           ========================================= */
+
+        const FASTAPI_URL =
+            "{{ fastapi_url }}";
+
+        const ACCESS_TOKEN =
+            "{{ access_token }}";
+
+
+        /* =========================================
+           ELEMENTOS
+           ========================================= */
+
+        const camera =
+            document.getElementById("camera");
+
+        const galleryImage =
+            document.getElementById("galleryImage");
+
+        const imageTitle =
+            document.getElementById("imageTitle");
+
+        const imageDescription =
+            document.getElementById("imageDescription");
+
+        const imageCounter =
+            document.getElementById("imageCounter");
+
+        const imageNumber =
+            document.getElementById("imageNumber");
+
+        const currentGesture =
+            document.getElementById("currentGesture");
+
+        const currentDescription =
+            document.getElementById("currentDescription");
+
+        const gestureIndicator =
+            document.getElementById("gestureIndicator");
+
+        const startDetection =
+            document.getElementById("startDetection");
+
+        const stopDetection =
+            document.getElementById("stopDetection");
+
+        const cameraStatus =
+            document.getElementById("cameraStatus");
+
+        const detectionTitle =
+            document.getElementById("detectionTitle");
+
+        const detectionDescription =
+            document.getElementById("detectionDescription");
+
+        const gestureButtons =
+            document.querySelectorAll(".gesture-button");
+
+
+        /* =========================================
+           GALERÍA
+           ========================================= */
+
+        const gallery = [
+
+            {
+                title: "Paisaje",
+
+                description:
+                    "Un paisaje natural.",
+
+                image:
+                    "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80"
+            },
+
+            {
+                title: "Ciudad",
+
+                description:
+                    "Una vista urbana.",
+
+                image:
+                    "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=80"
+            },
+
+            {
+                title: "Océano",
+
+                description:
+                    "El mar y sus paisajes.",
+
+                image:
+                    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
+            },
+
+            {
+                title: "Bosque",
+
+                description:
+                    "Un entorno natural lleno de vegetación.",
+
+                image:
+                    "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80"
+            },
+
+            {
+                title: "Montañas",
+
+                description:
+                    "Un paisaje rodeado de montañas.",
+
+                image:
+                    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80"
+            },
+
+            {
+                title: "Espacio",
+
+                description:
+                    "Una vista del universo.",
+
+                image:
+                    "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=1200&q=80"
+            }
+
+        ];
+
+
+        let currentImageIndex = 0;
+
+
+        /* =========================================
+           ESTADO DE CÁMARA
+           ========================================= */
+
+        let cameraStream = null;
+
+        let recognitionTimer = null;
+
+        let processing = false;
+
+
+        /* =========================================
+           ESTADO DE GESTOS
+           ========================================= */
+
+        let lastAction = null;
+
+        let lastActionTime = 0;
+
+        let candidateAction = null;
+
+        let candidateCount = 0;
+
+
+        /* =========================================
+           CONFIGURACIÓN DE DETECCIÓN
+           ========================================= */
+
+        const RECOGNITION_INTERVAL = 900;
+
+        const SAME_GESTURE_COOLDOWN = 2000;
+
+        const REQUIRED_CONFIRMATIONS = 2;
+
+        const IMAGE_QUALITY = 0.75;
+
+
+        /* =========================================
+           RENDERIZAR IMAGEN
+           ========================================= */
+
+        function renderImage() {
+
+            const currentImage =
+                gallery[currentImageIndex];
+
+            galleryImage.style.opacity = "0";
+
+            setTimeout(() => {
+
+                galleryImage.src =
+                    currentImage.image;
+
+                galleryImage.alt =
+                    currentImage.title;
+
+                imageTitle.textContent =
+                    currentImage.title;
+
+                imageDescription.textContent =
+                    currentImage.description;
+
+                imageCounter.textContent =
+                    `${currentImageIndex + 1} / ${gallery.length}`;
+
+                imageNumber.textContent =
+                    `${currentImageIndex + 1} / ${gallery.length}`;
+
+                galleryImage.style.opacity = "1";
+
+            }, 80);
+        }
+
+
+        /* =========================================
+           SIGUIENTE IMAGEN
+           ========================================= */
+
+        function nextImage() {
+
+            currentImageIndex =
+                (currentImageIndex + 1) %
+                gallery.length;
+
+            renderImage();
+
+            showGesture(
+                "SWIPE_RIGHT",
+                "Se avanzó a la siguiente imagen."
+            );
+        }
+
+
+        /* =========================================
+           IMAGEN ANTERIOR
+           ========================================= */
+
+        function previousImage() {
+
+            currentImageIndex =
+                (
+                    currentImageIndex -
+                    1 +
+                    gallery.length
+                ) %
+                gallery.length;
+
+            renderImage();
+
+            showGesture(
+                "BACK",
+                "Se regresó a la imagen anterior."
+            );
+        }
+
+
+        /* =========================================
+           SELECT
+           ========================================= */
+
+        function selectImage() {
+
+            const selectedImage =
+                gallery[currentImageIndex];
+
+            showGesture(
+                "SELECT",
+                `Imagen seleccionada: ${selectedImage.title}.`
+            );
+        }
+
+
+        /* =========================================
+           MOSTRAR GESTO
+           ========================================= */
+
+        function showGesture(
+            gesture,
+            description
+        ) {
+
+            currentGesture.textContent =
+                gesture;
+
+            currentDescription.textContent =
+                description;
+
+            gestureIndicator.textContent =
+                gesture;
+
+            gestureIndicator.classList.add(
+                "active"
+            );
+
+            setTimeout(() => {
+
+                gestureIndicator.classList.remove(
+                    "active"
+                );
+
+            }, 350);
+        }
+
+
+        /* =========================================
+           PROCESAR GESTO CONFIRMADO
+           ========================================= */
+
+        function executeAction(action) {
+
+            if (!action) {
+                return;
+            }
+
+            const now =
+                Date.now();
+
+            if (
+                action === lastAction &&
+                now - lastActionTime <
+                SAME_GESTURE_COOLDOWN
+            ) {
+                return;
+            }
+
+            lastAction =
+                action;
+
+            lastActionTime =
+                now;
+
+            if (action === "SELECT") {
+
+                selectImage();
+
+            } else if (action === "BACK") {
+
+                previousImage();
+
+            } else if (action === "SWIPE_RIGHT") {
+
+                nextImage();
+            }
+        }
+
+
+        /* =========================================
+           ESTABILIZAR DETECCIÓN
+           ========================================= */
+
+        function processAction(action) {
+
+            if (!action) {
+
+                candidateAction = null;
+
+                candidateCount = 0;
+
+                return;
+            }
+
+
+            if (action !== candidateAction) {
+
+                candidateAction =
+                    action;
+
+                candidateCount =
+                    1;
+
+                return;
+            }
+
+
+            candidateCount++;
+
+
+            if (
+                candidateCount <
+                REQUIRED_CONFIRMATIONS
+            ) {
+                return;
+            }
+
+
+            executeAction(action);
+
+
+            candidateAction = null;
+
+            candidateCount = 0;
+        }
+
+
+        /* =========================================
+           BOTONES MANUALES
+           ========================================= */
+
+        gestureButtons.forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const action =
+                        button.dataset.gesture;
+
+                    if (action === "BACK") {
+
+                        previousImage();
+
+                    } else if (
+                        action === "SWIPE_RIGHT"
+                    ) {
+
+                        nextImage();
+
+                    } else if (
+                        action === "SELECT"
+                    ) {
+
+                        selectImage();
+                    }
+
+
+                    gestureButtons.forEach(
+                        item => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    setTimeout(() => {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }, 350);
+
+                }
+            );
+
+        });
+
+
+        /* =========================================
+           CAPTURAR FRAME
+           ========================================= */
+
+        function captureFrame() {
+
+            if (
+                !camera.videoWidth ||
+                !camera.videoHeight
+            ) {
+                return null;
+            }
+
+
+            const canvas =
+                document.createElement("canvas");
+
+            canvas.width =
+                camera.videoWidth;
+
+            canvas.height =
+                camera.videoHeight;
+
+
+            const context =
+                canvas.getContext("2d");
+
+
+            context.drawImage(
+                camera,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            return new Promise(
+                resolve => {
+
+                    canvas.toBlob(
+                        blob => {
+                            resolve(blob);
+                        },
+                        "image/jpeg",
+                        IMAGE_QUALITY
+                    );
+
+                }
+            );
+        }
+
+
+        /* =========================================
+           RECONOCER GESTO
+           ========================================= */
+
+        async function recognizeGesture() {
+
+            if (
+                processing ||
+                !cameraStream
+            ) {
+                return;
+            }
+
+
+            processing = true;
+
+
+            try {
+
+                const imageBlob =
+                    await captureFrame();
+
+
+                if (!imageBlob) {
+                    return;
+                }
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "file",
+                    imageBlob,
+                    "gesture.jpg"
+                );
+
+
+                const response =
+                    await fetch(
+                        `${FASTAPI_URL}/api/v1/recognize-action`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Authorization":
+                                    `Bearer ${ACCESS_TOKEN}`
+                            },
+
+                            body: formData
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    console.error(
+                        "Error del backend:",
+                        response.status
+                    );
+
+                    return;
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                processAction(
+                    data.action || null
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error de reconocimiento:",
+                    error
+                );
+
+
+            } finally {
+
+                processing =
+                    false;
+            }
+        }
+
+
+        /* =========================================
+           INICIAR RECONOCIMIENTO
+           ========================================= */
+
+        function startRecognition() {
+
+            stopRecognition();
+
+            recognitionTimer =
+                setInterval(
+                    recognizeGesture,
+                    RECOGNITION_INTERVAL
+                );
+        }
+
+
+        /* =========================================
+           DETENER RECONOCIMIENTO
+           ========================================= */
+
+        function stopRecognition() {
+
+            if (recognitionTimer) {
+
+                clearInterval(
+                    recognitionTimer
+                );
+
+                recognitionTimer = null;
+            }
+        }
+
+
+        /* =========================================
+           INICIAR CÁMARA
+           ========================================= */
+
+        async function startDetectionProcess() {
+
+            if (cameraStream) {
+                return;
+            }
+
+
+            try {
+
+                if (
+                    !navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia
+                ) {
+
+                    throw new Error(
+                        "El navegador no permite utilizar la cámara."
+                    );
+                }
+
+
+                cameraStream =
+                    await navigator.mediaDevices.getUserMedia(
+                        {
+                            video: {
+                                facingMode: "user",
+
+                                width: {
+                                    ideal: 1280
+                                },
+
+                                height: {
+                                    ideal: 720
+                                }
+                            },
+
+                            audio: false
+                        }
+                    );
+
+
+                camera.srcObject =
+                    cameraStream;
+
+
+                await camera.play();
+
+
+                lastAction = null;
+
+                lastActionTime = 0;
+
+                candidateAction = null;
+
+                candidateCount = 0;
+
+
+                startDetection.disabled =
+                    true;
+
+                stopDetection.disabled =
+                    false;
+
+
+                cameraStatus.classList.add(
+                    "active"
+                );
+
+                cameraStatus.textContent =
+                    "🟢";
+
+
+                detectionTitle.textContent =
+                    "Detección activa";
+
+
+                detectionDescription.textContent =
+                    "La cámara está lista. Realiza una seña para interactuar con las imágenes.";
+
+
+                currentGesture.textContent =
+                    "Detección iniciada";
+
+
+                currentDescription.textContent =
+                    "Realiza SWIPE_RIGHT, BACK o SELECT frente a la cámara.";
+
+
+                gestureIndicator.textContent =
+                    "LISTO";
+
+
+                startRecognition();
+
+
+                recognizeGesture();
+
+
+            } catch (error) {
+
+                console.error(
+                    "No se pudo iniciar la cámara:",
+                    error
+                );
+
+
+                cameraStream =
+                    null;
+
+
+                startDetection.disabled =
+                    false;
+
+                stopDetection.disabled =
+                    true;
+
+
+                cameraStatus.textContent =
+                    "⚠️";
+
+
+                detectionTitle.textContent =
+                    "No se pudo iniciar la cámara";
+
+
+                detectionDescription.textContent =
+                    "Verifica los permisos de cámara del navegador.";
+
+
+                currentGesture.textContent =
+                    "Cámara no disponible";
+
+
+                currentDescription.textContent =
+                    "Debes permitir el acceso a la cámara para utilizar la detección.";
+            }
+        }
+
+
+        /* =========================================
+           DETENER DETECCIÓN
+           ========================================= */
+
+        function stopDetectionProcess() {
+
+            stopRecognition();
+
+            processing = false;
+
+            lastAction = null;
+
+            lastActionTime = 0;
+
+            candidateAction = null;
+
+            candidateCount = 0;
+
+
+            if (cameraStream) {
+
+                cameraStream
+                    .getTracks()
+                    .forEach(track => {
+
+                        track.stop();
+
+                    });
+
+                cameraStream = null;
+            }
+
+
+            camera.srcObject =
+                null;
+
+
+            startDetection.disabled =
+                false;
+
+            stopDetection.disabled =
+                true;
+
+
+            cameraStatus.classList.remove(
+                "active"
+            );
+
+            cameraStatus.textContent =
+                "📷";
+
+
+            detectionTitle.textContent =
+                "Detección detenida";
+
+
+            detectionDescription.textContent =
+                'Presiona "Iniciar detección" para volver a activar la cámara.';
+
+
+            currentGesture.textContent =
+                "Detección detenida";
+
+
+            currentDescription.textContent =
+                "La galería sigue disponible mediante los controles manuales.";
+
+
+            gestureIndicator.textContent =
+                "DETENIDA";
+        }
+
+
+        /* =========================================
+           BOTÓN INICIAR
+           ========================================= */
+
+        startDetection.addEventListener(
+            "click",
+            startDetectionProcess
+        );
+
+
+        /* =========================================
+           BOTÓN DETENER
+           ========================================= */
+
+        stopDetection.addEventListener(
+            "click",
+            stopDetectionProcess
+        );
+
+
+        /* =========================================
+           DETENER CÁMARA AL SALIR
+           ========================================= */
+
+        window.addEventListener(
+            "beforeunload",
+            () => {
+
+                stopRecognition();
+
+                if (cameraStream) {
+
+                    cameraStream
+                        .getTracks()
+                        .forEach(track => {
+
+                            track.stop();
+
+                        });
+                }
+
+            }
+        );
+
+
+        /* =========================================
+           INICIALIZAR GALERÍA
+           ========================================= */
+
+        renderImage();
+
+    </script>
+
+</body>
+
+</html>

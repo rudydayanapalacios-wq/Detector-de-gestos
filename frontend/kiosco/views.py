@@ -5,13 +5,10 @@ from django.shortcuts import redirect, render
 
 
 def login_view(request):
-    if request.session.get("access_token"):
-        return redirect("kiosco")
-
     error = None
 
     if request.method == "POST":
-        username = request.POST.get("username", "")
+        username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
 
         try:
@@ -42,14 +39,13 @@ def login_view(request):
     return render(
         request,
         "kiosco/login.html",
-        {"error": error},
+        {
+            "error": error,
+        },
     )
 
 
 def register_view(request):
-    if request.session.get("access_token"):
-        return redirect("kiosco")
-
     error = None
     success = None
 
@@ -68,13 +64,40 @@ def register_view(request):
             error = "La contraseña debe tener al menos 6 caracteres."
 
         else:
-            # El endpoint de registro de FastAPI todavía no está creado.
-            # Cuando esté disponible, aquí conectaremos el formulario
-            # con /api/v1/auth/register.
-            success = (
-                "El formulario está listo. "
-                "El registro se habilitará cuando el backend esté disponible."
-            )
+            try:
+                response = requests.post(
+                    f"{settings.FASTAPI_URL}/api/v1/auth/register",
+                    json={
+                        "username": username,
+                        "password": password,
+                    },
+                    timeout=5,
+                )
+
+                if response.status_code == 400:
+                    try:
+                        error = response.json().get(
+                            "detail",
+                            "No fue posible crear la cuenta.",
+                        )
+                    except ValueError:
+                        error = "No fue posible crear la cuenta."
+
+                else:
+                    response.raise_for_status()
+
+                    data = response.json()
+
+                    success = data.get(
+                        "message",
+                        "Usuario registrado correctamente.",
+                    )
+
+            except requests.RequestException:
+                error = "No fue posible conectar con el backend."
+
+            except (KeyError, ValueError):
+                error = "El backend respondió con un formato inesperado."
 
     return render(
         request,
@@ -106,3 +129,31 @@ def logout_view(request):
         request.session.flush()
 
     return redirect("login")
+
+def gestos(request):
+    if not request.session.get("access_token"):
+        return redirect("login")
+
+    return render(
+        request,
+        "kiosco/gestos.html",
+        {
+            "username": request.session.get("username"),
+            "access_token": request.session.get("access_token"),
+            "fastapi_url": settings.FASTAPI_URL,
+        },
+    )
+
+def imagenes(request):
+    if not request.session.get("access_token"):
+        return redirect("login")
+
+    return render(
+        request,
+        "kiosco/imagenes.html",
+        {
+            "username": request.session.get("username"),
+            "access_token": request.session.get("access_token"),
+            "fastapi_url": settings.FASTAPI_URL,
+        },
+    )

@@ -1,0 +1,212 @@
+/* =========================================================
+   GESTUREKIOSK — BASE
+   ========================================================= */
+
+:root {
+    --cream: #f3eadb;
+    --cream-light: #faf5ec;
+    --cream-dark: #e6d7c2;
+
+    --terracotta: #a85d46;
+    --terracotta-dark: #884936;
+    --terracotta-light: #c47a61;
+
+    --brown: #3d2b25;
+    --brown-light: #65483d;
+
+    --white: #ffffff;
+    --black: #171311;
+
+    --success: #5b8c68;
+    --warning: #c28a45;
+    --danger: #a84f4f;
+
+    --shadow: 0 12px 35px rgba(61, 43, 37, 0.12);
+    --shadow-hover: 0 18px 45px rgba(61, 43, 37, 0.18);
+
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 22px;
+    --radius-xl: 30px;
+
+    --transition: 0.25s ease;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HTML
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    min-height: 100vh;
+    background: var(--cream-light);
+    color: var(--brown);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ELEMENTOS GENERALES
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+/* =========================================================
+   UTILIDADES
+   ========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--terracotta);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: var(--terracotta);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--terracotta-dark);
+}
+
+.btn-secondary {
+    background: var(--cream);
+    color: var(--brown);
+    border-color: var(--cream-dark);
+}
+
+.btn-secondary:hover {
+    background: var(--cream-dark);
+}
+
+
+/* =========================================================
+   INDICADOR DE ESTADO
+   ========================================================= */
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--warning);
+}
+
+.status-dot.online {
+    background: var(--success);
+}
+
+.status-dot.offline {
+    background: var(--danger);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cream-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--terracotta);
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   ANIMACIÓN
+   ========================================================= */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.35s ease both;
+}
