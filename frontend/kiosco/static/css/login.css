@@ -1,0 +1,163 @@
+/* =========================================================
+   GESTUREKIOSK — LOGIN
+   ========================================================= */
+
+.auth-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 20px;
+}
+
+.auth-container {
+    width: min(440px, 100%);
+}
+
+.auth-card {
+    padding: 34px;
+
+    border: 1px solid rgba(61, 43, 37, 0.08);
+    border-radius: 30px;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    box-shadow: var(--shadow);
+}
+
+.auth-logo {
+    width: 68px;
+    height: 68px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: var(--terracotta);
+    color: var(--white);
+
+    font-size: 30px;
+
+    box-shadow:
+        0 10px 25px rgba(168, 93, 70, 0.22);
+}
+
+.auth-card h1 {
+    margin-bottom: 7px;
+
+    color: var(--brown);
+
+    text-align: center;
+
+    font-size: 26px;
+}
+
+.auth-subtitle {
+    margin-bottom: 27px;
+
+    color: var(--brown-light);
+
+    text-align: center;
+
+    font-size: 13px;
+}
+
+.auth-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--brown);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    min-height: 48px;
+
+    padding: 11px 13px;
+
+    border: 1px solid var(--cream-dark);
+    border-radius: 11px;
+
+    outline: none;
+
+    background: var(--cream-light);
+    color: var(--brown);
+
+    transition: var(--transition);
+}
+
+.form-group input:focus {
+    border-color: var(--terracotta);
+
+    background: var(--white);
+
+    box-shadow:
+        0 0 0 3px rgba(168, 93, 70, 0.10);
+}
+
+.auth-submit {
+    width: 100%;
+
+    margin-top: 5px;
+}
+
+.auth-link {
+    margin-top: 19px;
+
+    color: var(--brown-light);
+
+    text-align: center;
+
+    font-size: 13px;
+}
+
+.auth-link a {
+    color: var(--terracotta-dark);
+
+    font-weight: 800;
+}
+
+.form-message {
+    margin-bottom: 17px;
+
+    padding: 11px 13px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-message.error {
+    background: rgba(168, 79, 79, 0.09);
+
+    border: 1px solid rgba(168, 79, 79, 0.20);
+
+    color: var(--danger);
+}
+
+.form-message.success {
+    background: rgba(91, 140, 104, 0.10);
+
+    border: 1px solid rgba(91, 140, 104, 0.20);
+
+    color: var(--success);
+}
