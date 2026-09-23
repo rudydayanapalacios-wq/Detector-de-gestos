@@ -1,0 +1,18 @@
+{
+  "builds": [
+    {
+      "src": "frontend/detector_de_gestos/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/frontend/staticfiles/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/detector_de_gestos/wsgi.py"
+    }
+  ]
+}
