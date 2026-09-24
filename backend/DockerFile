@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Instalar librerías nativas del sistema que necesita MediaPipe y OpenCV
+# Instalar librerías nativas doel sistema que necesita MediaPipe y OpenCV
 RUN apt-get update && apt-get install -y \
     libgl1 \
     libgles2 \
