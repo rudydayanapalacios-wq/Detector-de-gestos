@@ -110,6 +110,6 @@ Crear un kiosco digital que permita al usuario interactuar mediante **gestos de 
 
 ## 🔗 Enlaces del proyecto
 
-- 🖥️ **Frontend:** `https://detector-de-gestos.vercel.app/`
-- ⚙️ **Backend:** `https://detector-de-gestos-c6j4.onrender.com`
-- 📚 **Documentación API (Swagger):** `https://detector-de-gestos-c6j4.onrender.com/docs`
+- 🖥️ **Frontend:** https://detector-de-gestos.vercel.app/
+- ⚙️ **Backend:** https://detector-de-gestos-c6j4.onrender.com
+- 📚 **Documentación API (Swagger):** https://detector-de-gestos-c6j4.onrender.com/docs
